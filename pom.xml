@@ -498,11 +498,16 @@
   </modules>
 
   <distributionManagement>
-    <repository>
-      <id>bintray</id>
-      <name>JFrog Bintray</name>
-      <url>https://api.bintray.com/maven/easymock/maven/easymock</url>
-    </repository>
+      <repository>
+          <id>morosystems-releases</id>
+          <name>MoroSystems Release Repository</name>
+          <url>https://nexus.morosystems.cz/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+          <id>morosystems-snapshots</id>
+          <name>MoroSystems Snapshot Repository</name>
+          <url>https://nexus.morosystems.cz/content/repositories/snapshots/</url>
+      </snapshotRepository>
   </distributionManagement>
 
   <profiles>
