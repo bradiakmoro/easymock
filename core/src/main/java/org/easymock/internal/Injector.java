@@ -15,14 +15,16 @@
  */
 package org.easymock.internal;
 
-import org.easymock.*;
+import static java.util.Arrays.*;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static java.util.Arrays.*;
+import org.easymock.*;
 
 /**
  * Performs creation of mocks and injection into test subjects in accordance with annotations present in the host object.
