@@ -87,12 +87,35 @@ public class Injector {
             }
         }
 
-        // Check for unsatisfied qualified injections only after having scanned all TestSubjects and their superclasses
-        for (Injection injection : injectionPlan.getQualifiedInjections()) {
-            if (!injection.isMatched()) {
-                throw new AssertionError(
-                        String.format("Unsatisfied qualifier: '%s'", injection.getAnnotation().fieldName()));
+        if (!ignoreQualifierChecking(host)) {
+            // Check for unsatisfied qualified injections only after having scanned all TestSubjects and their superclasses
+            for (Injection injection : injectionPlan.getQualifiedInjections()) {
+                if (!injection.isMatched()) {
+                    throw new AssertionError(
+                            String.format("Unsatisfied qualifier: '%s'",
+                                    injection.getAnnotation().fieldName()));
+                }
             }
+        }
+    }
+
+    /**
+     * Checks if qualifier injection checking is disabled.
+     *
+     * @param host host instance (test subject) where mocks were injected
+     * @return <code>true</code> when qualifier injection checking is disabled
+     *
+     * @author michal.bradiak
+     */
+    @SuppressWarnings("unchecked")
+    private static boolean ignoreQualifierChecking(final Object host) {
+        Objects.requireNonNull(host, "Host object cannot be null.");
+        try {
+            final Class<?> type = Class.forName("cz.morosystems.testing.mock.IgnoreUnsatisfiedQualifier");
+            return (host.getClass().getAnnotation((Class<? extends Annotation>) type) != null);
+        } catch (ClassNotFoundException e) {
+            // unit-testing library is missing on classpath; qualifier checking cannot be disabled;
+            return false;
         }
     }
 
